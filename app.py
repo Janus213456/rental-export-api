@@ -8,6 +8,10 @@ import os
 
 app = FastAPI()
 
+@app.get("/")
+def root():
+    return {"status": "Rental API is running"}
+
 # 🔹 Payload structure
 class RentalPayload(BaseModel):
     unit_number: str
