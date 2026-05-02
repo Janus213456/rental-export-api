@@ -62,8 +62,20 @@ def export_rental_calc(data: RentalPayload):
 
     wb.save(output_path)
 
+    filename = os.path.basename(output_path)
+
+    return {
+        "download_url": f"https://rental-export-api.onrender.com/download/{filename}",
+        "filename": filename
+    }
+
+@app.get("/download/{filename}")
+def download_file(filename: str):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(base_dir, "generated_files", filename)
+
     return FileResponse(
-        output_path,
-        filename=os.path.basename(output_path),
+        file_path,
+        filename=filename,
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
