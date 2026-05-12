@@ -58,7 +58,12 @@ def export_rental_calc(data: RentalPayload):
     ws["B16"] = 0.031 if data.tenrisk else 0
     ws["B20"] = data.renewal_fee
 
-    ws["D22"] = data.placement_term
+    if data.management_fee == 0:
+        placement_term = 1
+    else:
+        placement_term = data.placement_term
+
+    ws["D22"] = placement_term
 
     wb.save(output_path)
 
